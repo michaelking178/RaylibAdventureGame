@@ -9,13 +9,16 @@ PlayerCharacter::PlayerCharacter(int winWidth, int winHeight) :
     anim_textures[WALK_UP]=LoadTexture("Textures\\Characters\\Player\\Player_Walk_Up.png");
     anim_textures[WALK_LEFT]=LoadTexture("Textures\\Characters\\Player\\Player_Walk_Left.png");
     anim_textures[WALK_RIGHT]=LoadTexture("Textures\\Characters\\Player\\Player_Walk_Right.png");
-    //anim_textures[ATTACK]=
+    anim_textures[ATTACK_DOWN]=LoadTexture("Textures\\Characters\\Player\\Player_Attack_Down.png");
+    anim_textures[ATTACK_UP]=LoadTexture("Textures\\Characters\\Player\\Player_Attack_Up.png");
+    anim_textures[ATTACK_LEFT]=LoadTexture("Textures\\Characters\\Player\\Player_Attack_Right.png");
+    anim_textures[ATTACK_RIGHT]=LoadTexture("Textures\\Characters\\Player\\Player_Attack_Right.png");
 
-    ANIM_STATE=IDLE;
+    ANIM_STATE=WALK_DOWN;
     texture=anim_textures[ANIM_STATE];
 
-    width = static_cast<float>(anim_textures[IDLE].width/3);
-    height = static_cast<float>(anim_textures[IDLE].height);
+    width = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
+    height = static_cast<float>(anim_textures[ANIM_STATE].height);
     speed = 7.5f;
 }
 
@@ -33,6 +36,9 @@ void PlayerCharacter::Tick(float deltaTime)
         velocity.y -= speed;
     else if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
         velocity.y += speed;
+    
+    if (IsKeyPressed(KEY_LEFT_CONTROL))
+        Attack();
 }
 
 Vector2 PlayerCharacter::GetScreenPos()

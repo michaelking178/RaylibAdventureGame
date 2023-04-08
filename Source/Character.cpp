@@ -6,6 +6,13 @@ Character::Character()
 
 void Character::Tick(float deltaTime)
 {
+    if(isAttacking)
+        maxFrames = 4;
+    else
+        maxFrames = 3;
+    width = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
+    height = static_cast<float>(anim_textures[ANIM_STATE].height);
+
     worldPosLastFrame = worldPos;
     if (Vector2Length(velocity) != 0.0)
     {
@@ -28,13 +35,16 @@ void Character::Tick(float deltaTime)
     runningTime += deltaTime;
     if (runningTime >= updateTime)
     {
-        if (velocity.x==0.f && velocity.y==0.f)
+        if (velocity.x==0.f && velocity.y==0.f && !isAttacking)
             frame=1;
         else
             frame++;
         runningTime = 0.0f;
         if (frame > maxFrames)
+        {
             frame=0;
+            if(isAttacking) FinishAttack();
+        }
     }
     velocity = {};
 
@@ -77,4 +87,46 @@ void Character::TakeDamage(int _damage)
     hitpoints -= _damage;
     if (hitpoints <= 0.0f)
         SetAlive(false);
+}
+
+void Character::Attack()
+{
+    isAttacking=true;
+    switch (ANIM_STATE) {
+        case WALK_DOWN:
+            ANIM_STATE = ATTACK_DOWN;
+            break;
+        case WALK_UP:
+            ANIM_STATE = ATTACK_UP;
+            break;
+        case WALK_LEFT:
+            ANIM_STATE = ATTACK_LEFT;
+            break;
+        case WALK_RIGHT:
+            ANIM_STATE = ATTACK_RIGHT;
+            break;
+        default:
+            break;
+    }
+}
+
+void Character::FinishAttack()
+{
+    isAttacking=false;
+    switch (ANIM_STATE) {
+        case ATTACK_DOWN:
+            ANIM_STATE = WALK_DOWN;
+            break;
+        case ATTACK_UP:
+            ANIM_STATE = WALK_UP;
+            break;
+        case ATTACK_LEFT:
+            ANIM_STATE = WALK_LEFT;
+            break;
+        case ATTACK_RIGHT:
+            ANIM_STATE = WALK_RIGHT;
+            break;
+        default:
+            break;
+    }
 }
