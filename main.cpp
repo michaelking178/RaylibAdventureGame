@@ -64,7 +64,7 @@ int main()
         // Draw Props
         for (auto prop : props) {
             // Debug draw prop collision rects
-            //prop.DrawCollisionRect(prop.GetCollisionRec(player.GetWorldPos()));
+            //prop.DrawCollisionRect(prop.GetCollisionRect(player.GetWorldPos()));
 
             prop.Render(player.GetWorldPos());
         }
@@ -76,7 +76,6 @@ int main()
         player.Tick(GetFrameTime());
         cacto.Tick(GetFrameTime());
 
-
         // Check for Prop Collision
         for (auto prop : props)
         {
@@ -84,7 +83,7 @@ int main()
             {
                 player.UndoMovement();
             }
-            
+            // Enemies aren't colliding :( 
         }
 
         // Draw Minimap

@@ -1,0 +1,20 @@
+- Draw BaseActors sorted by y-position
+    - Collect all BaseActors into resizeable array in case I want to add new ones dynamically throughout the level.
+    - Draw sort by y-position and draw in order
+- Tool
+    - Sockets to Character
+    - Anims are unique
+    - Uses could include weapons, non-combat tools, puzzle items, etc.
+- PropData
+    - Pass PropData into PropFactory to create Props
+    - Tidies up initialization?
+- Input system
+    - Create InputActions to abstract raw input from actions
+    - Later, add remapping?
+    - Raw input is built into raylib
+- Levels / Game state manager
+    - Add ability to switch levels
+    - Save persistent data between levels
+    - Pass data between levels?
+
+NOTE: Raylib has a bunch of other libraries to explore: https://www.raylib.com/
