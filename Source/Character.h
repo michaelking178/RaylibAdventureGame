@@ -2,7 +2,6 @@
 #define CHARACTER_H
 
 #include "BaseActor.h"
-#include "raylib.h"
 #include <map>
 
 class Character : public BaseActor
@@ -23,22 +22,20 @@ protected:
     ANIM_STATES ANIM_STATE{IDLE};
     Texture2D anim_textures[9];
     Texture2D texture{};
-    Vector2 worldPos{};
     Vector2 worldPosLastFrame{};
     Vector2 velocity{};
+    Vector2 toolSocket{};
     int frame{};
     int maxFrames{2};
-    float runningTime{0.f};
-    float updateTime{1.f / 12.f};
-    float width{};
-    float height{};
-    float scale{4.f};
-    float speed{1.f};
     int hitpoints{1000};
     int maxHitpoints{1000};
+    float runningTime{0.f};
+    float updateTime{1.f / 12.f};
+    float speed{1.f};
 
 public:
     void Tick(float deltaTime) override;
+    void Draw(Vector2 playerPos) override;
     Vector2 GetWorldPos();
     virtual Vector2 GetScreenPos() = 0;
     void UndoMovement();

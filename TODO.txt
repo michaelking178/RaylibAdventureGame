@@ -1,20 +1,34 @@
+TOP PRIORITY
 - Draw BaseActors sorted by y-position
     - Collect all BaseActors into resizeable array in case I want to add new ones dynamically throughout the level.
     - Draw sort by y-position and draw in order
+    - GameState could own this
 - Tool
     - Sockets to Character
     - Anims are unique
     - Uses could include weapons, non-combat tools, puzzle items, etc.
-- PropData
-    - Pass PropData into PropFactory to create Props
-    - Tidies up initialization?
+    - Character rendering will have to sort character/tool based on DIRECTION (up == draw tool first, down == draw tool second)
+- Collision
+    - Player collision currently reliant on screenPos?
+    - Enemies don't have any collision
+- Separate player position from screenpos? Don't make so many things reliant on screenpos
+- Convert ANIM_STATE to 2D array (DIRECTION, ACTION)
+    - Only update direction when velocity != 0
+    - Maybe don't bother with special idle states for now.
+
+LOWER PRIORITY
 - Input system
     - Create InputActions to abstract raw input from actions
     - Later, add remapping?
     - Raw input is built into raylib
-- Levels / Game state manager
+- Levels
     - Add ability to switch levels
     - Save persistent data between levels
     - Pass data between levels?
+- UI
+    - Pause Menu
+        - Resume
+        - Exit Game
+    - Inventory
 
 NOTE: Raylib has a bunch of other libraries to explore: https://www.raylib.com/

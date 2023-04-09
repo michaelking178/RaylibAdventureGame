@@ -10,8 +10,8 @@ void Character::Tick(float deltaTime)
         maxFrames = 4;
     else
         maxFrames = 3;
-    width = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
-    height = static_cast<float>(anim_textures[ANIM_STATE].height);
+    spriteWidth = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
+    spriteHeight = static_cast<float>(anim_textures[ANIM_STATE].height);
 
     worldPosLastFrame = worldPos;
     if (Vector2Length(velocity) != 0.0)
@@ -47,19 +47,23 @@ void Character::Tick(float deltaTime)
         }
     }
     velocity = {};
+}
 
-    // Draw Character
+void Character::Draw(Vector2 playerPos)
+{
     Rectangle source{
-        .x = frame * width,
+        .x = frame * spriteWidth,
         .y = 0.f,
-        .width = width,
-        .height = height};
+        .width = spriteWidth,
+        .height = spriteHeight
+    };
     Rectangle dest{
         .x = GetScreenPos().x,
         .y = GetScreenPos().y,
-        .width = scale * width,
-        .height = scale * height};
-        DrawTexturePro(texture, source, dest, Vector2{}, 0.f, WHITE);
+        .width = scale * spriteWidth,
+        .height = scale * spriteHeight
+    };
+    DrawTexturePro(texture, source, dest, Vector2{}, 0.f, WHITE);
 }
 
 Vector2 Character::GetWorldPos()
@@ -77,8 +81,8 @@ Rectangle Character::GetCollisionRect()
     return {
         GetScreenPos().x + 15,
         GetScreenPos().y + 80,
-        width * scale * 0.7f,
-        height * scale * 0.4f
+        spriteWidth * scale * 0.7f,
+        spriteHeight * scale * 0.4f
     };
 }
 

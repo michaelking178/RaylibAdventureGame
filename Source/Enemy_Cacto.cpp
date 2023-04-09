@@ -14,12 +14,13 @@ Enemy_Cacto::Enemy_Cacto(Vector2 spawnPos) :
     ANIM_STATE=IDLE;
     texture=anim_textures[ANIM_STATE];
 
-    width = static_cast<float>(anim_textures[IDLE].width/3);
-    height = static_cast<float>(anim_textures[IDLE].height);
+    spriteWidth = static_cast<float>(anim_textures[IDLE].width/3);
+    spriteHeight = static_cast<float>(anim_textures[IDLE].height);
 
     speed = 2.f;
     maxHitpoints = 20;
     damagePerSec = 5;
     scale=3.f;
     hitpoints = maxHitpoints;
+    name = "Cacto";
 }

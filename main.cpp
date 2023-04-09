@@ -4,9 +4,14 @@
 #include "Source/Prop.h"
 #include "Source/PropFactory.h"
 #include "Source/Minimap.h"
+#include "Source/GameState.h"
 
 int main()
 {
+    // Create Game State and prop factory
+    GameState gameState{};
+    PropFactory propFactory{};
+
     // Window Setup
     const int WindowDimensions[2]{1920,1080};
     InitWindow(WindowDimensions[0],WindowDimensions[1], "My Adventure Game");
@@ -28,23 +33,36 @@ int main()
     cacto.SetTarget(&player);
 
     // Create several props with the factory
-    PropFactory propFactory{};
-    Prop props[2] {
+    Prop props[4] {
         propFactory.CreateProp(
-            LoadTexture("Textures/Props/outside.png"),
-            Vector2{288.f, 16.f},
-            Vector2{48.f, 32.f},
+            gameState.logPropData,
             3.f,
             Vector2{100.f, 100.f}
         ),
         propFactory.CreateProp(
-            LoadTexture("Textures/Props/outside.png"),
-            Vector2{288.f, 16.f},
-            Vector2{48.f, 32.f},
+            gameState.logPropData,
             4.f,
             Vector2{250.f, 550.f}
+        ),
+        propFactory.CreateProp(
+            gameState.treePropData,
+            3.f,
+            Vector2{500.f, 750.f}
+        ),
+        propFactory.CreateProp(
+            gameState.treePropData,
+            4.f,
+            Vector2{280.f*mapScale, 217.f*mapScale} // this way I can use coordinates straight from the level texture, and plan out the level design in GIMP.
         )
     };
+
+    // Populate GameState BaseActor vector just before starting Update
+    gameState.RegisterBaseActor(&player);
+    gameState.RegisterBaseActor(&cacto);
+    for (auto prop : props)
+    {
+        gameState.RegisterBaseActor(&prop);
+    }
 
     // Update
     while(!WindowShouldClose())
@@ -62,12 +80,12 @@ int main()
         DrawTextureEx(map, mapPos, 0, mapScale, WHITE);
 
         // Draw Props
-        for (auto prop : props) {
-            // Debug draw prop collision rects
-            //prop.DrawCollisionRect(prop.GetCollisionRect(player.GetWorldPos()));
+        // for (auto prop : props) {
+        //     // Debug draw prop collision rects
+        //     //prop.DrawCollisionRect(prop.GetCollisionRect(player.GetWorldPos()));
 
-            prop.Render(player.GetWorldPos());
-        }
+        //     prop.Draw(player.GetWorldPos());
+        // }
         
         // Debug draw player Collision Rect
         //player.DrawCollisionRect(player.GetCollisionRect());
@@ -75,6 +93,13 @@ int main()
         // Ticks
         player.Tick(GetFrameTime());
         cacto.Tick(GetFrameTime());
+
+        // Draw the BaseActors
+        gameState.SortBaseActorsByYPos();
+        for (BaseActor* ba : gameState.GetBaseActors())
+        {
+            ba->Draw(player.GetWorldPos());
+        }
 
         // Check for Prop Collision
         for (auto prop : props)

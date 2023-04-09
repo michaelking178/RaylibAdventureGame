@@ -5,19 +5,21 @@ Prop::Prop()
 {}
 
 Prop::Prop(Texture2D _texture, Vector2 _spritePos, Vector2 _spriteSize, float _scale, Vector2 _worldPos):
-    texture(_texture),
-    scale(_scale),
-    worldPos(_worldPos)
+    texture(_texture)
 {
+    scale = _scale;
+    worldPos = _worldPos;
+    spriteHeight = _spriteSize.y;
+    spriteWidth = _spriteSize.x;
     sourceRect = {
         .x = _spritePos.x,
         .y = _spritePos.y,
-        .width = _spriteSize.x,
-        .height = _spriteSize.y
+        .width = spriteWidth,
+        .height = spriteHeight
     };
 }
 
-void Prop::Render(Vector2 playerPos)
+void Prop::Draw(Vector2 playerPos)
 {
     Vector2 screenPos = Vector2Subtract(worldPos, playerPos);
     destRect = {

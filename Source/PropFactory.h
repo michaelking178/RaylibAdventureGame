@@ -3,16 +3,13 @@
 
 #include "raylib.h"
 #include "Prop.h"
+#include "PropData.h"
 
 class PropFactory
 {
 public:
     PropFactory();
-    Prop CreateProps();
-    Prop CreateProp(Texture2D _texture, Vector2 _spritePos, Vector2 _spriteSize, float _scale, Vector2 _worldPos);
-
-private:
-    
+    Prop CreateProp(const PropData& pd, float scale, Vector2 worldPos);    
 };
 
 #endif

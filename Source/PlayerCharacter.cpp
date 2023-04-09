@@ -17,9 +17,11 @@ PlayerCharacter::PlayerCharacter(int winWidth, int winHeight) :
     ANIM_STATE=WALK_DOWN;
     texture=anim_textures[ANIM_STATE];
 
-    width = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
-    height = static_cast<float>(anim_textures[ANIM_STATE].height);
+    spriteWidth = static_cast<float>(anim_textures[ANIM_STATE].width/maxFrames);
+    spriteHeight = static_cast<float>(anim_textures[ANIM_STATE].height);
     speed = 7.5f;
+    toolSocket = Vector2{8.f, 26.f};
+    name = "Player";
 }
 
 void PlayerCharacter::Tick(float deltaTime)
@@ -38,13 +40,15 @@ void PlayerCharacter::Tick(float deltaTime)
         velocity.y += speed;
     
     if (IsKeyPressed(KEY_LEFT_CONTROL))
+    {
         Attack();
+    }
 }
 
 Vector2 PlayerCharacter::GetScreenPos()
 {
     return {
-        static_cast<float>(windowWidth) / 2.0f - scale * (0.5f * width),
-        static_cast<float>(windowHeight) / 2.0f - scale * (0.5f * height)
+        static_cast<float>(windowWidth) / 2.0f - scale * (0.5f * spriteWidth),
+        static_cast<float>(windowHeight) / 2.0f - scale * (0.5f * spriteHeight)
     };
 }
